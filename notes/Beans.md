@@ -45,10 +45,8 @@ AnnotationConfigApplicationContext required to build up a container:
 <br>
 `ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);`
 
-<h3>Bean Scope</h3>
-
-<h3>Scopes:</h3>
-<br>singleton
+<h2>Bean Scope</h2>
+<b><br>singleton
 <br>prototype
 
 <b>Web:</b>
@@ -56,6 +54,7 @@ AnnotationConfigApplicationContext required to build up a container:
 <br>session
 <br>application
 <br>websocket
+</b>
 
 <h3>Singleton:</h3>
 all requests will return the same cached object
@@ -162,7 +161,7 @@ convert to subclass of DataAccessExceptionbean class=
 @Configuration:
 bean definition methods
 
-AOP:
+<h2>AOP:</h2>
 
 `
 @Aspect
