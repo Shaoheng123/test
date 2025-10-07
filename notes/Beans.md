@@ -26,7 +26,7 @@ Configurations provide container with appropriate metadata
 public class Company {}
 `
 <h2>Configuration class</h2>
-`
+```
 @Configuration
 @ComponentScan(basePackageClasses = Company.class)
 public class Config {
@@ -35,26 +35,27 @@ public class Config {
         return 
     }
 }
-`
+```
 <h2>@ComponentScan</h2> 
 Config tells container to look for beans in package containing the Company class
 
 All objects are managed by Spring
 
-AnnotationConfigApplicationContext required to build up a container
+AnnotationConfigApplicationContext required to build up a container:
+<br>
 `ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);`
 
 <h3>Bean Scope</h3>
 
-<h3><b>Scopes:</b></h3>
-singleton
-prototype
+<h3>Scopes:</h3>
+<br>singleton
+<br>prototype
 
 <b>Web:</b>
-request
-session
-application
-websocket
+<br>request
+<br>session
+<br>application
+<br>websocket
 
 <h3>Singleton:</h3>
 all requests will return the same cached object
