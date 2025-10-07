@@ -14,13 +14,10 @@ public class Company {
 
     // getter, setter and other properties
 }
-
-
-
 ```
 Configurations provide container with appropriate metadata
 
-@Bean Configuration:
+<h2>@Bean Configuration:</h2>
 `
 @Component
 public class Company {}
@@ -49,7 +46,7 @@ AnnotationConfigApplicationContext required to build up a container:
 <b><br>singleton
 <br>prototype
 
-<b>Web:</b>
+<h3>Web:</h3>
 <br>request
 <br>session
 <br>application
@@ -119,25 +116,27 @@ Automatically scans packages
 configures which packages to scan
 specify base package or value
 
-`
+```
 @Configuration
 @ComponentScan(basePackage = VehicleFactoryConfig)
 @ComponentScan(basePackageClasses=VehicleConfig.class)
 class VehicleFactoryConfig{}
 <context:component-scan base-package="com.baeldung" />
-`
+```
 
-@Component
+<h3>@Component<h3>
 Spring automatically detects classes associated with @Component
 bean instance same name but lowercase initial
 
-@Repository
-@Service
-@Configuration
-@Controller
-meta annotations of @Component
+<h3>meta annotations of @Component</h3>
 
-@Repository
+<br>@Repository
+<br>@Service
+<br>@Configuration
+<br>@Controller
+<br>
+
+<h3>@Repository</h3>
 database access layer in application
 `
 @Repository
@@ -146,6 +145,7 @@ class VehicleRepository
 automatic persistance exception translationenabled
 native Hibernate exception translated to subclass of DataAccessException
 
+<h3>Configuration to translate hibernate exception to spring Data Access Exception</h3>
 `
 @Bean
 public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
