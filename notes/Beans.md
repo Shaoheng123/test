@@ -86,29 +86,32 @@ Spring creates and instantiate targetbean when it is needed in a request
 
 <h3> Session</h3>
 Bean instance for a Http Session
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-@SessionScope
-However, once it is changed, that value is retained for subsequent requests as the same instance of the bean is returned for the entire session.
 
-<h3>ApplicationScope:<h3>
+`@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)`
+
+`@SessionScope`
+However, once bean is changed, that value is retained for subsequent requests as the same instance of the bean is returned for the entire session.
+
+<h3>ApplicationScope:</h3>
 bean cycle for lifecycle of a Servlet Context
 same instance of bean shared among multiple servlet based in the same ServletContext
 Singleton scoped to a single application context
 
-`
+```
 @Bean
 @Scope(
 value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Resource(name = "applicationScopedBean")
-`
+```
 Websocket
 
-`
+```
 @Bean
 @Scope(scopeName = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)
-`
+```
 WebSocket scoped beans are stored in the WebSocket session attributes. 
 The same instance of the bean is then returned whenever that bean is accessed during the entire WebSocket session.
+similar to singleton
 
 <h2>Spring Bean annotations<h2>
 
