@@ -99,7 +99,7 @@ Singleton scoped to a single application context
 value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Resource(name = "applicationScopedBean")
 ```
-Websocket
+<h3>Websocket</h3>
 
 ```
 @Bean
@@ -124,13 +124,12 @@ class VehicleFactoryConfig{}
 <context:component-scan base-package="com.baeldung" />
 ```
 
-<h3>@Component<h3>
+<h3>@Component</h3>
 Spring automatically detects classes associated with @Component
 bean instance same name but lowercase initial
 
 <h3>meta annotations of @Component</h3>
-
-<br>@Repository
+@Repository
 <br>@Service
 <br>@Configuration
 <br>@Controller
@@ -174,10 +173,10 @@ public void method(){}
 <h3>@Pointcut</h3>
 matches all methods in the class annotated with repository
 <h3>@Around("method()"):</h3>
-intercept the method call before and after execution
+<b>intercept the method call before and after execution</b>
 modify input parameters or return value
-Handle exceptions or add logic such as logging and security or performance monitoring
-Caching:
+Handle exceptions or add logic such as <b>logging</b> and security or performance monitoring
+<b>Caching:</b>
 
 ```
 @Aspect
