@@ -43,11 +43,11 @@ AnnotationConfigApplicationContext required to build up a container:
 `ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);`
 
 <h2>Bean Scope</h2>
-<b><br>singleton
+<b>singleton
 <br>prototype
 
 <h3>Web:</h3>
-<br>request
+request
 <br>session
 <br>application
 <br>websocket
@@ -57,13 +57,13 @@ AnnotationConfigApplicationContext required to build up a container:
 all requests will return the same cached object
 Any changes reflected in all references to the bean
 <b>Default</b> value for scope
-`
+```
 @Bean
 @Scope("singleton")
 public Person personSingleton() {
 return new Person();
 }
-`
+```
 Both objects referencing same bean instance even if one changes state
 
 <h3>Prototype</h3>
@@ -71,11 +71,12 @@ Different instance each time it is requested from the container
 
 <h3> Request</h3>
 
-`
+```
 @Bean
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-@RequestScope
-`
+```
+
+`RequestScope`
 Bean instance for a Http Request
 proxyMode: No active request at the moment of instantiation of web request
 Spring creates and instantiate targetbean when it is needed in a request
