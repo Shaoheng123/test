@@ -3,6 +3,7 @@
 IOC: define dependencies without creating them.
 
 <h3>Domain Class</h3>
+
 ```
 public class Company {
     private Address address;
