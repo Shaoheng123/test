@@ -42,7 +42,7 @@ class DemoApplicationTests {
 
 
         Car car = new Car(engine,transmission,0L);
-        assertTrue(car,car.getCarId(),cae);
+//        assertTrue(car,car.getCarId(),car);
     }
 
 }

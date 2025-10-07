@@ -9,9 +9,11 @@ public class Scope {
     Engine engine;
     @Bean
     @ApplicationScope
-    public Scope applicationScopedBean() {
+    public Car applicationScopedBean() {
         return new Car(engine,transmission, carId);
     }
+
+
 
 
 }

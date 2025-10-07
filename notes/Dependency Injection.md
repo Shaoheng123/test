@@ -158,4 +158,16 @@ Initialized when first requested, not startup
 Configuration Error discovery may be delayed
 
 
+Spring Bean Autowiring:
+
+`@Configuration
+@ComponentScan("com.baeldung.autowire.sample")
+public class AppConfig {}
+`
+@SpringBootApplication == @Configuration,@EnableAutoConfiguration,@ComponentScan
+automatically register in ApplicationCOntext scan current and sub packages
+Inject Beans using AutoWired
+
+Autowire can be used on Field, Setter and Constructor
+
 

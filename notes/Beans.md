@@ -1,9 +1,10 @@
-Object that is initialized, managed by Spring IOC container
+<h2>Beans: Object that is initialized, managed by Spring IOC container</h2>
 
 IOC: define dependencies without creating them.
 
 <h3>Domain Class</h3>
-```public class Company {
+```
+public class Company {
     private Address address;
 
     public Company(Address address) {
@@ -12,8 +13,11 @@ IOC: define dependencies without creating them.
 
     // getter, setter and other properties
 }
+
+
+
 ```
-Provide container with appropriate metadata
+Configurations provide container with appropriate metadata
 
 @Bean Configuration:
 `
@@ -31,29 +35,32 @@ public class Config {
     }
 }
 `
-@ComponentScan in config tells container to look for beans in package containing the Company class
+<h2>@ComponentScan</h2> 
+Config tells container to look for beans in package containing the Company class
 
 All objects are managed by Spring
 
 AnnotationConfigApplicationContext required to build up a container
-ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+`ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);`
 
 <h3>Bean Scope</h3>
 
 <h3><b>Scopes:</b></h3>
 singleton
 prototype
+
 <b>Web:</b>
 request
 session
 application
 websocket
 
-Singleton:
+<h3>Singleton:</h3>
 all requests will return the same cached object
 Any changes reflected in all references to the bean
 <b>Default</b> value for scope
-`@Bean
+`
+@Bean
 @Scope("singleton")
 public Person personSingleton() {
 return new Person();

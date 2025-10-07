@@ -22,10 +22,10 @@ public class TestRestController {
 
     @GetMapping("/applicationscope")
     public String getApplicationScopeMessage(final Model model) {
-        model.addAttribute("previousMessage", Scope.getMessage());
+        model.addAttribute("previousMessage", applicationScopedBean.applicationScopedBean().toString());
         applicationScopedBean.setMessage("Good afternoon!");
         model.addAttribute("currentMessage", applicationScopedBean.getMessage());
         return "scopesExample";
-
+    }
 
 }
