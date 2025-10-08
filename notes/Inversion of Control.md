@@ -7,7 +7,7 @@ Framework use abstract with additional behaviour
 Benefits:
 decouple execution of task from implementation to switch
 greater modularity
-easier to test by isolatingg and testing dependencies, communicate through contracts
+easier to test by isolating and testing dependencies, communicate through contracts
 
 How to achieve Inversion of Control
 Strategy Design Pattern, Service Location pattern, Factory pattern and Dependency Injection
