@@ -18,7 +18,7 @@ Register in ApplicationContext bc annotated with @Component
 catch persistence specific exception and rethrow as unified uncheck exceptions
 `<bean class = "org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>`
 
-<h2>Service</h2>
+<h2>Service</h2> 
 business logic
  
 <h2>Registering Properties File</h2>
@@ -90,7 +90,7 @@ database.password=bar
 
 Mapping to database object
 @ConfigurationProperties(prefix = "database")
-public class Database {]
+public class Database {}
 yaml file
 ```
 database:
@@ -142,6 +142,109 @@ Best way to define properties file and include in context and retrieve from Spri
 - @Value
 - environment.getProperty
 
-@Value:
+<h2>@Value:</h2>
 injecting values into field in Spring Managed beans
 applied at field/constructor/method parameter 
+
+<h2>Set up:</h2>
+Properties file
+define @PropertySource in configuration class
+```
+value.from.file =
+priority=high
+listOfValue =A,B,C
+```
+Injecting from annotation to the field
+```
+@Value("string")
+private String stringValue; 
+```
+Injecting from file to the field
+
+```
+@Value("$value.from.file}")
+private String valueFromFile
+```
+Default Value:
+```
+@Value("${unknown.param":default}")
+```
+Precedence:
+1. System
+2. Properties File
+
+`@Value("${listOfValues}")`
+
+<h2>SpEL</h2>
+
+`@Value("#{systemProperties{'priority''}})`
+
+null value assigned if system property is null
+
+`@Value{""#{systemProperties['unknown']?:'default'}"}`
+
+field value from other beans
+`@Value("#{otherBean.value})`
+
+List of Values:
+`@Value("#{'${listOfValues}'.split(',')")`
+
+<h2>@Value with Maps</h2>
+
+Properties file:
+`valuesMap = {key1:'1',key2:'2',key3:'3'}`
+<h3>Inject value from property file</h3>
+`@Value("#{${valuesMap}})`
+Get value of specific key in Map:
+`@Value("#{${valuesMap}.keyOne}")`
+
+Setting default value:
+`@Value("#{${unknownMap:{key1:'1,key2:'2}}}")`
+`@Value(""#{valuesMap}['key']"?:5)`
+
+Map entries filtered before injection
+`@Value("#{${valuesMap}.?{value>'1''}}")`
+
+`@Value("#{systemProperties}")`
+
+Constructor Injection:
+
+Injecting priority to normal
+```
+@Component
+@PropertySource("classpath:values.properties")
+public class PriorityProvider {
+    private String priority
+    
+    @Autowired
+    public PriorityProvider{@Value("${priority:normal}" String priority) {
+        this.priority = priority;
+    }}
+}
+```
+Setter Injection:
+
+SpEL to inject list of values into setValue method
+```
+@Component
+@PropertySource("classpath:values.properties")
+public class CollectionProdivder {
+    private List<String> values = new ArrayList<>();
+    
+    @Autowired
+    public void setValues(@Value("#'${listOfValues}'.split(',')}" List<String> values))
+    this.values.addAll(values);
+}
+```
+<h2>Java 14: @Value with Records</h2>
+```
+@Component
+@PropertySource("classpath:values.properties")
+public record PriorityRecord(@Value("${priority:normal}")String priority) {}
+```
+Inject value directly into record's constructor
+
+
+ 
+
+

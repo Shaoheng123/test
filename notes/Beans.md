@@ -99,7 +99,7 @@ Singleton scoped to a single application context
 @Scope(
 value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Resource(name = "applicationScopedBean")
-```
+  ```
 <h3>Websocket</h3>
 
 ```
@@ -207,8 +207,86 @@ public class CachingAspect {
     }
 }
 ```
+Autowiring Testing
+```
+    @Autowired
+    private  AccountComponent accountComponent;
+```
+
+SpringBoot
+`spring.task.scheduling.pool.size`
+
+<h2>ApplicationContext</h2>
+- Instantiating
+- Configuring
+- Creating Beans
+<h2>SubInterface of BeanFactory</h2>
+- message resolving
+- internationalization
+- resource loading
+- event publishing
+- 
+Load Multiple Context
+<h2>Bean instantiation:</h2>
+- instantiated after container started
+get currentApplicationContext reference in Spring
+
+<h2>ApplicationContext Bean</h2>
+```
+@Component
+public class Bean {
+@Autowired
+private ApplicationContext applicationContext;
+public ApplicationContext getApplicationContext() {
+    return applicationContext;
+}
+```
+<h2>Testing ApplicationContext</h2>
+```
+@Test
+void  getApplicationContext() {
+    Application Context = myBean.getApplicationContext();
+}
+
+```
+<h2>ApplicationContextAware Interface</h2>
+implement ApplicationContextAware interface
+call setApplicationContext() method
+Spring detects this interface and inject a reference to ApplicationContext
+
+```
+@Component
+public class ApplicationCOntextProvider implements ApplicationContextAware {
+    private static ApplicationContext applicationContext;
+    
+    @Override
+    public void setApplicationContext(ApplicationCOntext applicationContext) throws BeansException {
+        ApplicationCOntextProvider.applicationContext =applicationCOntext;
+    }
+    public static ApplicationCOntext getApplicationContext() {
+        return applicationContext;
+        }
+
+}
+
+```
+
+```
+@Test
+void getApplicationCOntext {
+ApplicationCOntext context = APplicaitonContextProvider.getApplicationCOntext();
+}
+```
+bean can obtain reference to ApplicationContext and access other beans
 
 
+```
+@Test(){
+ApplicationContext context = ApplicationContextProvider.getApplicationContext();
+ItemService = context.getBean(ItemService.class);
+}
+
+```
 
 
 
