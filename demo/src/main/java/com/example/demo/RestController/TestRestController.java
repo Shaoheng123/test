@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestRestController {
     @Value("{$spring.application.name}")
     String appName;
-    @Resource(name = "applicationScopedBean")
-    Scope applicationScopedBean;
+//    @Resource(name = "applicationScopedBean")
+//    Scope applicationScopedBean;
 
     @GetMapping("/")
     public String homePage(Model model) {
@@ -22,9 +22,9 @@ public class TestRestController {
 
     @GetMapping("/applicationscope")
     public String getApplicationScopeMessage(final Model model) {
-        model.addAttribute("previousMessage", applicationScopedBean.applicationScopedBean().toString());
-        applicationScopedBean.setMessage("Good afternoon!");
-        model.addAttribute("currentMessage", applicationScopedBean.getMessage());
+//        model.addAttribute("previousMessage", applicationScopedBean.applicationScopedBean().toString());
+//        applicationScopedBean.setMessage("Good afternoon!");
+//        model.addAttribute("currentMessage", applicationScopedBean.getMessage());
         return "scopesExample";
     }
 

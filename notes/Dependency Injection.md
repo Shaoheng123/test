@@ -411,12 +411,68 @@ public class FooFormatter implements Fortmatter{}
 
 @Qualifier: injected precedence
 
+<h2>ComponentScan</h2>
 
+Annotate to make into Spring Beans
+Tell Spring where to search for annotated classes. Not all classes must becme beans in every run
 
+<h2>Default</h2>
+<h3>ComponentScan</h3>
+Use `@ComponentScan` and `@Configuration`
+@ComponentScan scans current package and sub-packages
 
+```
+package com.baeldung.comoponentscan.springapp
+@Configuration
+@ComponentScan
+public class SpringComponentScanApp {
 
+    private static ApplicationContext applicationContext
+    
+    @Bean
+    public ExampleBean exampleBean() {
+        return new ExampleBean();
+    }
+    public static void main(String[] args) {
+    applicationContext = new AnnotationConfigApplicaitonCOntext(SpringComponentScanApp.class);
+    for (String beanName:applicationContext.getBeanDefinitionNames(){
+        sout(bean.name());
+    })
+        }
+    }
+}
+```
+```
+package com.baeldung.componentscan.springapp.animals;
+@Component
+public class Cat{
+}
+```
+Only location of configuration class matters as component scanning starts from its package
 
+`@SpringbootApplication` consists of `@AutoConfiguration`, `@Configuration`,`@ComponentScan`
+@EnableAutoConfiguration creates beans automatically based on pom.xml dependencies
 
+<h2>@ComponentScan (specific package)</h2>
+```
+@ComponentScan(basePackages = "com.baeldung.componentscan.springapp.animals
+")
+@Configuration
+public class SpringComponentScanApp{
+}
+
+```
+SpringComponentScanAPp created as its a configuration passed as argument to AnnotationConfigApplicationContext
+bean configured inside configuration.
+`@ComponentScan(basePackages = {"com.baeldung.componentscan.springapp.animals","com.baeldung.componentscan.springapp.flowers""})`
+
+<h2>@ComponentScan with Exclusions</h2>
+
+`@ComponentScan(excludeFilters = @ComponentScan.Filter(type=FilterType.REGEX,pattern="com\\.baeldung\\.componentscan\\.springapp\\.flowers\\..))`
+`@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = Rose.class))`
+
+<h2>Default Package</h2>
+scans all the jars in classpath, error and won't start
 
 
 

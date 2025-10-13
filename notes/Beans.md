@@ -275,7 +275,7 @@ public class ApplicationCOntextProvider implements ApplicationContextAware {
 @Test
 void getApplicationCOntext {
 ApplicationCOntext context = APplicaitonContextProvider.getApplicationCOntext();
-}
+}    
 ```
 bean can obtain reference to ApplicationContext and access other beans
 

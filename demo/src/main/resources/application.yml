@@ -1,0 +1,10 @@
+spring:
+  thread-executor: virtual
+  config:
+    activate:
+      on-profile: test
+name: test-Yaml
+environment: produ
+enabled: false
+servers:
+  - www.abc.test.com
