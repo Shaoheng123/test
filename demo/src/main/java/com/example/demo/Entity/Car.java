@@ -1,8 +1,9 @@
 package com.example.demo.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 
-public class Car {
+public class Car implements Vehicle {
     Engine engine;
     Transmission transmission;
     Long carId;

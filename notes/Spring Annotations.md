@@ -244,7 +244,200 @@ public record PriorityRecord(@Value("${priority:normal}")String priority) {}
 ```
 Inject value directly into record's constructor
 
+<h2> @PostConstruct and @PreDestroy</h2>
 
- 
+Attach actions to bean creation and destruction
 
+<h2> @PostConstruct</h2>
+
+Any access level, cannot be static
+```
+@Component
+public class DbInit {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostConstruct
+    private void postConstruct() {
+        User admin = new User("admin", "admin password");
+        User normalUser = new User("user", "user password");
+        userRepository.save(admin, normalUser);
+    }
+}
+
+```
+ <h3>Usage</h3>
+- populating database
+- default users
+- Initialize Repository before run @PostConstruct
+
+<@h3> PreDestory</h3>
+
+- Run only once when Spring removing bean from application context
+- Any access level, cannot be static
+
+<h3>Usage</h3>
+@Component
+```
+public class UserRepository {
+
+    private DbConnection dbConnection;
+    @PreDestroy
+    public void preDestroy() {
+        dbConnection.close();
+    }
+}
+
+```
+<h2>Spring AOP</h2>
+Increase Modularity by allowing separation of cross-cutting concerns
+
+<h3>AOP Concepts</h3>
+
+- Business Object
+-  Aspect
+- Joinpoint
+- Pointcut
+- Advice
+
+Examples: 
+- Logging
+- Transaction Managment
+- Security
+- Exception Handling
+
+<h2>Aspect</h2>
+
+- Modularize convern that cuts across multiple classes.
+- Unified logging
+
+<h3>Definition</h3>
+```
+public class Aspect {
+    Private Logger logger = LoggerFactory.getLogger(this.getClass);
+    public void afterReturn(Object return) throws Throwable{
+        logger.info(returnValue);
+    }
+}
+```
+
+<h2>@JoinPoint</h2>
+
+- Point during execution of program , execution of method or exception handling
+- Method execution
+
+<h2> Pointcut</h2>
+
+- Predicate that help match advice to be applied by an Aspect at a particular JoinPoint
+- associate Advice with the Pointcut expression and it runs at any JoinPoint matched by Pointcut
+
+<h2> @Advice</h2>
+
+- interceptor
+- Difficult types of advice include around, before and after
+- interceptors maintain chain of interceptors around the joinpoint
+
+<h2> Wiring Business Object and Aspect </h2>
+
+```
+<bean id="sampleAdder" class="org.baeldung.logger.SampleAdder" />
+<bean id="doAfterReturningAspect"
+class="org.baeldung.logger.AdderAfterReturnAspect" />
+<aop:config>
+<aop:aspect id="aspects" ref="doAfterReturningAspect">
+<aop:pointcut id="pointCutAfterReturning" expression=
+"execution(* org.baeldung.logger.SampleAdder+.*(..))"/>
+<aop:after-returning method="afterReturn"
+returning="returnValue" pointcut-ref="pointCutAfterReturning"/>
+</aop:aspect>
+</aop:config>
+
+```
+
+<h2>Configuration at a Glance</h2>
+
+<h3>tag: aop:config</h3>
+- Define class that represents an aspect
+- Define aspect bean that was created
+
+Define Pointcut using pointcut tag
+apply an advice on any method within SimpleAdder class that accepts any number of arguments and returns any value type
+Define which advice want to apply 
+- apply the after-return advice
+- defined in our Asoect by executing afterReturn that defined using attribute method
+- advice within Aspect takes one parameter of type Object
+- Take an action before and/or after target method call, log the return value
+
+<h2> Spring Component Annotation</h2>
+<h3> Spring ApplicationContext</h3>
+Spring Application COntext:
+Spring holds instances of objects that identified to be managed and distributed automatically
+These are called beans
+Spring uses Inversion of Control to collect beans from application and initialize at appropriate time
+
+<h2> @Component</h2>
+
+@Component is annotation hat allows Spring to detect custom bean automatically
+- Spring scans application for classes annotated with @Component
+- Instantiate them and inject any specified dependencies into them
+- Inject when needed.
+
+<h2> Spring stereotype Annotations</h2>
+
+- @Controller
+- @Service
+- @Repository
+
+Same function as @Component
+
+composed annotations with @Component as a meta annotation for each of them
+Specialized use and meaning of Spring auto-detection or dependency injection.
+
+To test: `applicationContext.getBean(ControllerExample.class)`
+
+<h2> @ComponentScan</h2>
+
+- differentiate beans from other domain objects
+- Spring uses @ComponentScan annotation to gather them into ApplicationContext
+- SpringbootApplication includes @ComponentScan
+- WHen @SpringbootApplication is at the root of the project will scan every component
+  - configure @ComponentScan explicity if @SpringBootApplication  is not at the root of the project as long as it is on the classpath
+
+Defined
+```
+package com.baeldung.component.scannedscope;
+
+@Component
+public class ScannedScopeExample {
+}
+```
+
+Include via @ComponentScan annotation
+
+```
+package com.baeldung.component.inscope;
+
+@SpringBootApplication
+@ComponentScan({"com.baeldung.component.inscope", "com.baeldung.component.scannedscope"})
+public class ComponentApplication {
+    //public static void main(String[] args) {...}
+}
+```
+<h2> When we cannot include</h2>
+
+- No access to source code
+- Conditionally use one bean implementation depending on environment can use @Bean
+
+<h2> @Component vs @Bean</h2>
+
+- @Bean is annotation that Spring uses to gather beans at runtime but not used at class level
+- annotate methods with @Bean so Spring can store method's result in Spring bean
+<h3>Differences</h3>
+
+| Component     | Bean                                           |
+|---------------|------------------------------------------------|
+| Class- level  | method-level                                   |
+| Auto-detected | Manual class instantiated                      |
+|               | third part classes can be made to Spring beans |
 

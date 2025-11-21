@@ -1,5 +1,7 @@
 package com.example.demo.Entity;
 
+import org.springframework.stereotype.Component;
+
 public class Engine {
     String engineType;
     Long engineId;

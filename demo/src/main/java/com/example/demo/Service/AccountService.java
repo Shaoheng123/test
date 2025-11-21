@@ -4,9 +4,10 @@ package com.example.demo.Service;
 import com.example.demo.dao.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
-
+@Component
 public class AccountService {
 //    inject repository and messageSOurce
     @Autowired
