@@ -46,3 +46,132 @@ parameterized with generic type of custom event, onApplicationEvent() type-safe
 - DoStuffAndPublishAnEvent Method blocks until all listeners finish processing an event
 
 <h3> Asynchronous events </h3>
+
+<h4> Using Application Event Multitasker</h4>
+
+- creating ApplicationEventMultiTasker bean with executor
+  - SimpleAsyncTaskExecutor
+    - ```
+      @Configuration
+      public class AsynchronousSpringEventsConfig {
+        @Bean(name = "applicationEventMulticaster")
+        public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+          SimpleApplicationEventMulticaster eventMulticaster =
+            new SimpleApplicationEventMulticaster();
+
+          eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+          return eventMulticaster;
+          }
+      }
+      ```
+  - Listener deal with event in a different thread
+  - event operate asynchronously and not others
+
+  <h3> Using @Async</h3>
+  Identify and annotate indivudal listeners that should process events asynchronously
+
+- ```
+  @EventListener
+  @Async
+  public void handleAsyncEvent(CustomSpringEvent event) {
+  
+  }
+  ```
+- process event in separate thread
+- use value attribute of @Async annotation to indicate that executor other than default should be used
+- ```
+  @Async("nonDefaultExcecutor")
+  void handleAsyncEvent(CustomSpringEvent event) 
+  ```
+  - Add @EnableAsync to @Configuration or @SpringBootApplication
+  - ```
+    @Configuration
+    @EnableAsync
+    public class AppConfig
+    ```
+    -@EnableAsync allow Spring to run @Async methods in background thread pool
+  - customizes used Executor
+  - Spring searches for associated thread pool definition
+  - unique TaskExecutor bean
+  - Executor bean named taskExecutor
+  - SimpleAsyncTaskExecutor will be used to invoke event listener asynchronously
+
+<h3> Existing Framework Events</h3>
+
+- Spring itself publishes variety of events out of the box
+- ApplicationContext fire various framework including
+  - ContextRefreshedEvent
+  - ContextStartedEvent
+  - RequestHandledEvent
+- hook into life cycle of application and context and add in custom logic
+- ```
+  public class ContextRefreshedOListener implements ApplicationListener<ContextRefreshedEvent> {
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent cse){}
+  }
+  ```
+
+<h3> Annotation Driven Event Listener </h3>
+
+- registered on any public method of a managed bean via @EventListener annotation
+- ```
+  @Component
+  public class AnnotationDrivenEventListener {
+    @EventListener
+  public void handleContextStart(ContextStartedEvent cse) {}
+  }
+  ```
+  -method signatire declares event type consumed
+Listener invoked syncrhonously in application
+- EnableAsync support  in application
+
+<h3> Generic</h3>
+
+- dispatch events with genetics information in event type
+- Generic Application Event
+- ```
+  public class GeneticSpringEvent<T> {
+    private T what;
+  protected boolean success;
+  
+  public GenericSpringEvent(T what, boolean success) {
+  public GenericSpringEvent(T what, boolean success) {
+    this.what = what;
+    this.success = success;
+  }
+    }
+  }
+  ```
+  - Diff between GenericSpringEvent and CustomSpringEvent
+  - Can publish any arbitrary event and not required to extend from ApplicationEvent anymore
+
+<h3> Listener</h3>
+
+- implement ApplicationListener interface
+- ```
+  @Component
+  public class GVenericSpringEventListener implements ApplicationListener<GenericSpringEvent<String> {
+    @Oveeride
+  public void onApplicationEvent(@NonNull GenericSpringZEvent<String> event) {
+  }
+  }
+  ```
+  - inherit GenericSpringEvent from ApplicationEvent class
+  - annotation-driven eventlistener
+  - conditional by defining boolean SpEL expression on @EventListener annotation
+  - invoked only for successful GenericSpringEvent of String
+  - ```
+    @COmponent
+    public class AnnotationDrivenEventListener {
+    @EventListener(condition = "event.success")
+    public void handleSuccessful(GenericSpringEvent<String> event) {}
+    }
+    ```
+    <h3> Publisher</h3>
+  - publish event that resolves generrics parameter to filter on
+  - `class GenericStringSpringEvent extends GenericSpringEvent<String>`
+  - alternative way of publishing event
+  - if return non-null value from method annotated with @eEventListener as the result
+  - Springframework send result as new event
+  - publish multiple new events by returning them in a collection as the result of event processing
+   

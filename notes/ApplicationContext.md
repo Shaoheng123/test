@@ -4,12 +4,12 @@ IoC container manages objects of an application using dependency injection
 
 IOC container:
 - BeanFactory
-- ApplicationCOntext
+- ApplicationContext
 
 ApplicationContext is sub-interface of BeanFactory
 
 Enterprise-specific functionalities
-ApplicationCOntext
+ApplicationContext
 - resolve messages
 - internationalization
 - publish events
@@ -287,8 +287,8 @@ messages.properties on classpath
   ```
 
 Inject MessageSource in AccountSource
-- 
-    ```
+
+-  ```
     @Autowired
     private MessageSource messageSource
     ```
