@@ -1,6 +1,9 @@
 <h1> Spring Events </h1>
 - create and public events that are synchronous
 listener able t participate in publisher's transaction context
+- publishing an event 
+- handling in a listener
+- enable asynchronous processing of events
 
 Application Event
 ```
@@ -174,4 +177,31 @@ Listener invoked syncrhonously in application
   - if return non-null value from method annotated with @eEventListener as the result
   - Springframework send result as new event
   - publish multiple new events by returning them in a collection as the result of event processing
-   
+
+<h4> Transaction-Bound Events</h4>
+
+TransactionalEventListener
+- extends @EventListener
+- bind listener of an event to a phase of the execution
+  - after_commit
+  - after_rollback
+  - after_completion
+  - before_commit
+- invoked when CustomSpringEvent publish after transaction completed
+- register transaction callback via TransactionSynchronizationManager
+  - handle event at a specified transaction phase   
+  - executed in same thread that publishes event
+    - multicast not used
+    - use Async to make transactionL
+    - ```
+      @Async
+      @TransactionalEventListener
+      void handleCustom(CustomSpringEvent event) {
+      }
+      ```
+- handleCustom method will run in separate thread asynchronously when original transaction has completed sucessfully
+- Spring binds transactions to the curent thread
+  - listener runs in separate thread cannot access the original transactional context
+  - should not use @Async @TransactionalEventListener if event handler relies on transaction's context such as lazy-loaded entities
+  - shared database state
+  - transactional rollback logic
